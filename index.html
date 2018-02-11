@@ -104,7 +104,8 @@
       .append("circle")
       .attr("r", radius)
       .attr("cx", function(d){return x(d[xVal]);})
-      .attr("cy", function(d){return y(d[yVal]);});
+      .attr("cy", function(d){return y(d[yVal]);})
+      .attr("class", "colorChange");
 
     svg1.selectAll("circle")  // For new circle, go through the update process
       .data(dataset)

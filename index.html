@@ -219,6 +219,318 @@
 
 // Put your part five code here ***********************
 
+
+  // First, we will create some constants to define non-data-related parts of the visualization
+  var w3 = 700/4; // Width of our visualization
+  var h3 = 500; // Height of our visualization
+  var xOffset3 = 40; // Space for x-axis labels
+  var yOffset3 = 100; // Space for y-axis labels
+  var margin3 = 10; // Margin around visualization
+  var vals3 = ['x', 'y']; // List of data attributes
+  var xVal3 = vals3[0]; // Value to plot on x-axis
+  var yVal3 = vals3[1]; // Value to plot on y-axis
+
+  // set the dimensions and margins of the graph
+  var margin3 = {top: 20, right: 20, bottom: 30, left: 50};
+  var width3 = 960/4 - margin3.left - margin3.right;
+  var height3 = 500 - margin3.top - margin3.bottom;
+
+  // set the ranges
+  var x3 = d3.scaleLinear().range([0, width3]);
+  var y3 = d3.scaleLinear().range([height3, 0]);
+
+  // append the svg obgect to the body of the page
+  // appends a 'group' element to 'svg'
+  // moves the 'group' element to the top left margin
+  var svg3 = d3.select("#partFive").append("svg")
+  .attr("width", width3 + margin3.left + margin3.right)
+  .attr("height", height3 + margin3.top + margin3.bottom)
+  .append("g")
+  .attr("transform","translate("+margin3.left + "," + margin3.top +")")
+
+  var radius3 = 5 // so it can be accessed globally
+
+  // Get the data
+  d3.csv("/data/anscombe_I.csv", function(error, dataset3){
+    if (error) throw error;
+
+    // Scale the range of the data
+    x3.domain([0, d3.max(dataset3, function(d) {return parseFloat(d[xVal3]);})]);
+    y3.domain([0, d3.max(dataset3, function(d) {return parseFloat(d[yVal3]);})]);
+
+    // Add the scatterplot points
+    svg3.selectAll("circle")
+      .data(dataset3)
+      .enter()
+      .append("circle")
+      .attr("r", radius3)
+      .attr("cx", function(d){return x(d[xVal3])/4;})
+      .attr("cy", function(d){return y(d[yVal3]);});
+
+    svg3.selectAll("circle")  // For new circle, go through the update process
+      .data(dataset3)
+      .enter()
+      .append("circle");
+
+  // Add the X Axis
+  svg3.append("g")
+    .attr("transform", "translate(0, " + height3 +")")
+    .call(d3.axisBottom(x3));
+
+  // Add the Y Axis
+  svg1.append("g")
+    .call(d3.axisLeft(y3));
+
+  //Add text labels
+  var xLabel3 = svg3.append("text")
+    .attr("class","label")
+    .text(xVal3)
+    .attr("x", width3 - 20)
+    .attr("y", height3 - 10);
+
+  var yLabel3 = svg3.append("text")
+    .attr("class","label")
+    .text(yVal3)
+    .attr("y", -10)
+    .attr("transform","rotate(90)")
+    .style("text-anchor","start");
+});
+
+
+  // First, we will create some constants to define non-data-related parts of the visualization
+  var w4 = 700/4; // Width of our visualization
+  var h4 = 500; // Height of our visualization
+  var xOffset4 = 40; // Space for x-axis labels
+  var yOffset4 = 100; // Space for y-axis labels
+  var margin4 = 10; // Margin around visualization
+  var vals4 = ['x', 'y']; // List of data attributes
+  var xVal4 = vals4[0]; // Value to plot on x-axis
+  var yVal4 = vals4[1]; // Value to plot on y-axis
+
+  // set the dimensions and margins of the graph
+  var margin4 = {top: 20, right: 20, bottom: 30, left: 50};
+  var width4 = 960/4 - margin4.left - margin4.right;
+  var height4 = 500 - margin4.top - margin4.bottom;
+
+  // set the ranges
+  var x4 = d3.scaleLinear().range([0, width4]);
+  var y4 = d3.scaleLinear().range([height4, 0]);
+
+  // append the svg obgect to the body of the page
+  // appends a 'group' element to 'svg'
+  // moves the 'group' element to the top left margin
+  var svg4 = d3.select("#partFive").append("svg")
+  .attr("width", width4 + margin4.left + margin4.right)
+  .attr("height", height4 + margin4.top + margin4.bottom)
+  .append("g")
+  .attr("transform","translate("+margin4.left + "," + margin4.top +")")
+
+  var radius4 = 5 // so it can be accessed globally
+
+
+  // Get the data
+  d3.csv("/data/anscombe_II.csv", function(error, dataset4){
+    if (error) throw error;
+
+    // Scale the range of the data
+    x4.domain([0, d3.max(dataset4, function(d) {return parseFloat(d[xVal4]);})]);
+    y4.domain([0, d3.max(dataset4, function(d) {return parseFloat(d[yVal4]);})]);
+
+    // Add the scatterplot points
+    svg4.selectAll("circle")
+      .data(dataset4)
+      .enter()
+      .append("circle")
+      .attr("r", radius4)
+      .attr("cx", function(d){return x(d[xVal4])/4;})
+      .attr("cy", function(d){return y(d[yVal4]);});
+
+    svg4.selectAll("circle")  // For new circle, go through the update process
+      .data(dataset4)
+      .enter()
+      .append("circle");
+
+  // Add the X Axis
+  svg4.append("g")
+    .attr("transform", "translate(0, " + height4 +")")
+    .call(d3.axisBottom(x4));
+
+  // Add the Y Axis
+  svg4.append("g")
+    .call(d3.axisLeft(y4));
+
+  //Add text labels
+  var xLabel4 = svg4.append("text")
+    .attr("class","label")
+    .text(xVal4)
+    .attr("x", width4 - 20)
+    .attr("y", height4 - 10);
+
+  var yLabel4 = svg4.append("text")
+    .attr("class","label")
+    .text(yVal4)
+    .attr("y", -10)
+    .attr("transform","rotate(90)")
+    .style("text-anchor","start");
+});
+
+
+  // First, we will create some constants to define non-data-related parts of the visualization
+  var w5 = 700/4; // Width of our visualization
+  var h5 = 500; // Height of our visualization
+  var xOffset5 = 40; // Space for x-axis labels
+  var yOffset5 = 100; // Space for y-axis labels
+  var margin5 = 10; // Margin around visualization
+  var vals5 = ['x', 'y']; // List of data attributes
+  var xVal5 = vals5[0]; // Value to plot on x-axis
+  var yVal5 = vals5[1]; // Value to plot on y-axis
+
+  // set the dimensions and margins of the graph
+  var margin5 = {top: 20, right: 20, bottom: 30, left: 50};
+  var width5 = 960/4 - margin5.left - margin5.right;
+  var height5 = 500 - margin5.top - margin5.bottom;
+
+  // set the ranges
+  var x5 = d3.scaleLinear().range([0, width5]);
+  var y5 = d3.scaleLinear().range([height5, 0]);
+
+  // append the svg obgect to the body of the page
+  // appends a 'group' element to 'svg'
+  // moves the 'group' element to the top left margin
+  var svg5 = d3.select("#partFive").append("svg")
+  .attr("width", width5 + margin5.left + margin5.right)
+  .attr("height", height5 + margin5.top + margin5.bottom)
+  .append("g")
+  .attr("transform","translate("+margin5.left + "," + margin5.top +")")
+
+  var radius5 = 5 // so it can be accessed globally
+
+
+  // Get the data
+  d3.csv("/data/anscombe_III.csv", function(error, dataset5){
+    if (error) throw error;
+
+    // Scale the range of the data
+    x5.domain([0, d3.max(dataset5, function(d) {return parseFloat(d[xVal5]);})]);
+    y5.domain([0, d3.max(dataset5, function(d) {return parseFloat(d[yVal5]);})]);
+
+    // Add the scatterplot points
+    svg5.selectAll("circle")
+      .data(dataset5)
+      .enter()
+      .append("circle")
+      .attr("r", radius5)
+      .attr("cx", function(d){return x(d[xVal5])/4;})
+      .attr("cy", function(d){return y(d[yVal5]);});
+
+    svg5.selectAll("circle")  // For new circle, go through the update process
+      .data(dataset5)
+      .enter()
+      .append("circle");
+
+  // Add the X Axis
+  svg5.append("g")
+    .attr("transform", "translate(0, " + height5 +")")
+    .call(d3.axisBottom(x5));
+
+  // Add the Y Axis
+  svg5.append("g")
+    .call(d3.axisLeft(y5));
+
+  //Add text labels
+  var xLabel5 = svg5.append("text")
+    .attr("class","label")
+    .text(xVal5)
+    .attr("x", width5 - 20)
+    .attr("y", height5 - 10);
+
+  var yLabel5 = svg5.append("text")
+    .attr("class","label")
+    .text(yVal)
+    .attr("y", -10)
+    .attr("transform","rotate(90)")
+    .style("text-anchor","start");
+});
+
+
+  // First, we will create some constants to define non-data-related parts of the visualization
+  var w6 = 700/4; // Width of our visualization
+  var h6 = 500; // Height of our visualization
+  var xOffset6 = 40; // Space for x-axis labels
+  var yOffset6 = 100; // Space for y-axis labels
+  var margin6 = 10; // Margin around visualization
+  var vals6 = ['x', 'y']; // List of data attributes
+  var xVal6 = vals6[0]; // Value to plot on x-axis
+  var yVal6 = vals6[1]; // Value to plot on y-axis
+
+  // set the dimensions and margins of the graph
+  var margin6 = {top: 20, right: 20, bottom: 30, left: 50};
+  var width6 = 960/4 - margin6.left - margin6.right;
+  var height6 = 500 - margin6.top - margin6.bottom;
+
+  // set the ranges
+  var x6 = d3.scaleLinear().range([0, width6]);
+  var y6 = d3.scaleLinear().range([height6, 0]);
+
+  // append the svg obgect to the body of the page
+  // appends a 'group' element to 'svg'
+  // moves the 'group' element to the top left margin
+  var svg6 = d3.select("#partFive").append("svg")
+  .attr("width", width6 + margin6.left + margin6.right)
+  .attr("height", height6 + margin6.top + margin6.bottom)
+  .append("g")
+  .attr("transform","translate("+margin6.left + "," + margin6.top +")")
+
+  var radius6 = 5 // so it can be accessed globally
+
+
+  // Get the data
+  d3.csv("/data/anscombe_IV.csv", function(error, dataset6){
+    if (error) throw error;
+
+    // Scale the range of the data
+    x6.domain([0, d3.max(dataset6, function(d) {return parseFloat(d[xVal6]);})]);
+    y6.domain([0, d3.max(dataset6, function(d) {return parseFloat(d[yVal6]);})]);
+
+    // Add the scatterplot points
+    svg6.selectAll("circle")
+      .data(dataset6)
+      .enter()
+      .append("circle")
+      .attr("r", radius6)
+      .attr("cx", function(d){return x(d[xVal6])/4;})
+      .attr("cy", function(d){return y(d[yVal6]);});
+
+    svg6.selectAll("circle")  // For new circle, go through the update process
+      .data(dataset6)
+      .enter()
+      .append("circle");
+
+  // Add the X Axis
+  svg6.append("g")
+    .attr("transform", "translate(0, " + height6 +")")
+    .call(d3.axisBottom(x6));
+
+  // Add the Y Axis
+  svg6.append("g")
+    .call(d3.axisLeft(y6));
+
+  //Add text labels
+  var xLabel6 = svg6.append("text")
+    .attr("class","label")
+    .text(xVal6)
+    .attr("x", width6 - 20)
+    .attr("y", height6 - 10);
+
+  var yLabel6 = svg6.append("text")
+    .attr("class","label")
+    .text(yVal6)
+    .attr("y", -10)
+    .attr("transform","rotate(90)")
+    .style("text-anchor","start");
+});
+
+
 </script>
 </body>
 

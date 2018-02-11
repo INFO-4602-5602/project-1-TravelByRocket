@@ -22,9 +22,9 @@ body {
     cursor: pointer;
 }
 
-circle.colorChange{
+circle{
         fill: red;
       }
 circle.colorChange:hover{
-        fill: green;
+        fill: blue;
       }

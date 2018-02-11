@@ -138,6 +138,85 @@
 
 // Put your part three & four code here ***********************
 
+
+          // First, we will create some constants to define non-data-related parts of the visualization
+          var w2 = 700; // Width of our visualization
+          var h2 = 500; // Height of our visualization
+          var xOffset2 = 40; // Space for x-axis labels
+          var yOffset2 = 100; // Space for y-axis labels
+          var margin2 = 10; // Margin around visualization
+          var vals2 = ['x', 'y']; // List of data attributes
+          var xVal2 = vals2[0]; // Value to plot on x-axis
+          var yVal2 = vals2[1]; // Value to plot on y-axis
+
+
+          // set the dimensions and margins of the graph
+          var margin2 = {top: 20, right: 20, bottom: 30, left: 50};
+          var width2 = 960 - margin2.left - margin2.right;
+          var height2 = 500 - margin2.top - margin2.bottom;
+
+          // set the ranges
+          var x2 = d3.scaleLinear().range([0, width]);
+          var y2 = d3.scaleLinear().range([height,0]);
+
+          // append the svg obgect to the body of the page
+          // appends a 'group' element to 'svg'
+          // moves the 'group' element to the top left margin
+          var svg2 = d3.select("#partThree").append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+          .attr("transform","translate("+margin.left + "," + margin.top +")")
+
+
+          // add the text labels
+
+
+          // Get the data
+          d3.csv("/data/anscombe_I.csv", function(error, dataset2){
+            if (error) throw error;
+
+            // Scale the range of the data
+            x.domain([0, d3.max(dataset2, function(d) {return parseFloat(d[xVal2]);})]);
+            y.domain([0, d3.max(dataset2, function(d) {return parseFloat(d[yVal2]);})]);
+
+            // Add the X Axis
+            svg2.append("g")
+            .attr("transform", "translate(0, " + height +")")
+            .call(d3.axisBottom(x));
+
+            // Add the Y Axis
+            svg2.append("g")
+            .call(d3.axisLeft(y));
+
+            //Add text labels
+            var xLabel2 = svg2.append("text")
+            .attr("class","label")
+            .text(xVal2)
+            .attr("x", width - 20)
+            .attr("y", height - 10);
+
+            var yLabel = svg2.append("text")
+            .attr("class","label")
+            .text(yVal2)
+            .attr("y", -10)
+            .attr("transform","rotate(90)")
+            .style("text-anchor","start");
+
+            var line = d3.line()
+            .x(function(d) { return x(d[xVal2]); })
+            .y(function(d) { return y(d[yVal2]); });
+
+            svg2.append("path")
+            .datum(dataset2)
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-linecap", "round")
+            .attr("stroke-width", 1.5)
+            .attr("d", line);
+          });
+
 // Put your part five code here ***********************
 
 </script>

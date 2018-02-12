@@ -17,7 +17,7 @@
   <div id="partTwo">
     <h1>Part Two: </h1>
     <div id="scatterplot">
-      <p id="scatterLabel"></p>
+      <p id="scatterLabel">Click for coordinates</p>
     </div>
   </div>
 
@@ -58,7 +58,7 @@
 
   // Put your part two code here ***********************
   function giveCoords() {
-    $("#scatterLabel").append("Here it is")
+    $("#scatterLabel").html('Built on hopes and dreams');
   }
 
   // First, we will create some constants to define non-data-related parts of the visualization
@@ -109,12 +109,14 @@
       .attr("cx", function(d){return x(d[xVal]);})
       .attr("cy", function(d){return y(d[yVal]);})
       .attr("class", "colorChange")
-      .attr("onclick",giveCoords());
+      .attr("onclick","giveCoords()")
+      ;
 
-    svg1.selectAll("circle")  // For new circle, go through the update process
-      .data(dataset)
-      .enter()
-      .append("circle");
+    // svg1.selectAll("circle")  // For new circle, go through the update process
+    //   .data(dataset)
+    //   .enter()
+    //   .append("circle")
+    //   .attr("onclick",giveCoords(this));
 
   // Add the X Axis
   svg1.append("g")

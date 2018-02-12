@@ -28,3 +28,9 @@ circle{
 circle.colorChange:hover{
         fill: blue;
       }
+
+.title{
+  text-anchor: middle;
+  font-size: 14px;
+  font-weight: bold;
+}

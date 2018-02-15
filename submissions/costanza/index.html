@@ -57,26 +57,22 @@
   }
 
   // Put your part two code here ***********************
-  function giveCoords() {
-    $("#scatterLabel").html('Built on hopes and dreams');
-  }
 
   // First, we will create some constants to define non-data-related parts of the visualization
-  // var w = 700; // Width of our visualization
-  // var h = 500; // Height of our visualization
-  // var xOffset = 40; // Space for x-axis labels
-  // var yOffset = 100; // Space for y-axis labels
-  // var margin = 10; // Margin around visualization
+  var w = 960; // Width of our visualization
+  var h = 500; // Height of our visualization
   var vals = ['x', 'y']; // List of data attributes
   var xVal = vals[0]; // Value to plot on x-axis
   var yVal = vals[1]; // Value to plot on y-axis
 
   // set the dimensions and margins of the graph
   var margin = {top: 20, right: 20, bottom: 30, left: 50};
-  var width = 960 - margin.left - margin.right;
-  var height = 500 - margin.top - margin.bottom;
+  var width = w - margin.left - margin.right;
+  var height = h - margin.top - margin.bottom;
 
   // set the ranges
+  // .range sets the output to be scaled from the orginal units to pixel-space
+  // Browser graphic coordinate origin in upper-left, hence "reversed" range
   var x = d3.scaleLinear().range([0, width]);
   var y = d3.scaleLinear().range([height, 0]);
 
@@ -91,32 +87,29 @@
 
   var radius = 5 // so it can be accessed globally
 
-
   // Get the data
   d3.csv("/data/anscombe_I.csv", function(error, dataset){
     if (error) throw error;
 
     // Scale the range of the data
+    // Set the input limits that will scale to corresponding .range
+    // used parseFloat to force numeric interpretation of values
     x.domain([0, d3.max(dataset, function(d) {return parseFloat(d[xVal]);})]);
     y.domain([0, d3.max(dataset, function(d) {return parseFloat(d[yVal]);})]);
 
     // Add the scatterplot points
     svg1.selectAll("circle")
       .data(dataset)
-      .enter()
+      .enter() // work on individual circle objects starting here
       .append("circle")
       .attr("r", radius)
+      // each 'd' is a circle object and we access each xVal/yVal key
       .attr("cx", function(d){return x(d[xVal]);})
       .attr("cy", function(d){return y(d[yVal]);})
-      .attr("class", "colorChange")
-      .attr("onclick","giveCoords()")
-      ;
-
-    // svg1.selectAll("circle")  // For new circle, go through the update process
-    //   .data(dataset)
-    //   .enter()
-    //   .append("circle")
-    //   .attr("onclick",giveCoords(this));
+      .attr("class", "colorChange") // CSS-based color change for Part 2
+      .on("click", function(d){
+        d3.select("#scatterLabel").html(d[xVal] + ", " + d[yVal]);
+      }); // Look up each clicked circle xVal/yVal keys and print to <p>
 
   // Add the X Axis
   svg1.append("g")
@@ -146,99 +139,94 @@
 // Put your part three & four code here ***********************
 
 
-          // First, we will create some constants to define non-data-related parts of the visualization
-          // var w2 = 700; // Width of our visualization
-          // var h2 = 500; // Height of our visualization
-          // var xOffset2 = 40; // Space for x-axis labels
-          // var yOffset2 = 100; // Space for y-axis labels
-          // var margin2 = 10; // Margin around visualization
-          var vals2 = ['x', 'y']; // List of data attributes
-          var xVal2 = vals2[0]; // Value to plot on x-axis
-          var yVal2 = vals2[1]; // Value to plot on y-axis
+// First, we will create some constants to define non-data-related parts of the visualization
+var w2 = 960; // Width of our visualization
+var h2 = 500; // Height of our visualization
+var vals2 = ['x', 'y']; // List of data attributes
+var xVal2 = vals2[0]; // Value to plot on x-axis
+var yVal2 = vals2[1]; // Value to plot on y-axis
 
 
-          // set the dimensions and margins of the graph
-          var margin2 = {top: 20, right: 20, bottom: 30, left: 50};
-          var width2 = 960 - margin2.left - margin2.right;
-          var height2 = 500 - margin2.top - margin2.bottom;
+// set the dimensions and margins of the graph
+var margin2 = {top: 20, right: 20, bottom: 30, left: 50};
+var width2 = w2 - margin2.left - margin2.right;
+var height2 = h2 - margin2.top - margin2.bottom;
 
-          // set the ranges
-          var x2 = d3.scaleLinear().range([0, width2]);
-          var y2 = d3.scaleLinear().range([height2,0]);
+// set the ranges
+var x2 = d3.scaleLinear().range([0, width2]);
+var y2 = d3.scaleLinear().range([height2,0]);
 
-          // append the svg obgect to the body of the page
-          // appends a 'group' element to 'svg'
-          // moves the 'group' element to the top left margin
-          var svg2 = d3.select("#lineGraph").append("svg")
-          .attr("width", width2 + margin2.left + margin2.right)
-          .attr("height", height2 + margin2.top + margin2.bottom)
-          .append("g")
-          .attr("transform","translate("+margin2.left + "," + margin2.top +")")
-
-
-          // add the text labels
+// append the svg obgect to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg2 = d3.select("#lineGraph").append("svg")
+.attr("width", width2 + margin2.left + margin2.right)
+.attr("height", height2 + margin2.top + margin2.bottom)
+.append("g")
+.attr("transform","translate("+margin2.left + "," + margin2.top +")")
 
 
-          // Get the data
-          d3.csv("/data/anscombe_I.csv", function(error, dataset2){
-            if (error) throw error;
+// add the text labels
 
-            // Scale the range of the data
-            x2.domain([0, d3.max(dataset2, function(d) {return parseFloat(d[xVal2]);})]);
-            y2.domain([0, d3.max(dataset2, function(d) {return parseFloat(d[yVal2]);})]);
 
-            // Add the X Axis
-            svg2.append("g")
-            .attr("transform", "translate(0, " + height +")")
-            .call(d3.axisBottom(x2));
+// Get the data
+d3.csv("/data/anscombe_I.csv", function(error, dataset2){
+  if (error) throw error;
 
-            // Add the Y Axis
-            svg2.append("g")
-            .call(d3.axisLeft(y2));
+  // Scale the range of the data
+  x2.domain([0, d3.max(dataset2, function(d) {return parseFloat(d[xVal2]);})]);
+  y2.domain([0, d3.max(dataset2, function(d) {return parseFloat(d[yVal2]);})]);
 
-            //Add text labels
-            var xLabel2 = svg2.append("text")
-            .attr("class","label")
-            .text(xVal2)
-            .attr("x", width2 - 20)
-            .attr("y", height2 - 10);
+  // Add the X Axis
+  svg2.append("g")
+  .attr("transform", "translate(0, " + height +")")
+  .call(d3.axisBottom(x2));
 
-            var yLabel2 = svg2.append("text")
-            .attr("class","label")
-            .text(yVal2)
-            .attr("y", -10)
-            .attr("transform","rotate(90)")
-            .style("text-anchor","start");
+  // Add the Y Axis
+  svg2.append("g")
+  .call(d3.axisLeft(y2));
 
-            var line = d3.line()
-            .x(function(d) { return x2(d[xVal2]); })
-            .y(function(d) { return y2(d[yVal2]); });
+  //Add text labels
+  var xLabel2 = svg2.append("text")
+  .attr("class","label")
+  .text(xVal2)
+  .attr("x", width2 - 20)
+  .attr("y", height2 - 10);
 
-            svg2.append("path")
-            .datum(dataset2)
-            .attr("fill", "none")
-            .attr("stroke", "red")
-            // .attr("stroke-width", 3)
-            .attr("d", line);
-          });
+  var yLabel2 = svg2.append("text")
+  .attr("class","label")
+  .text(yVal2)
+  .attr("y", -10)
+  .attr("transform","rotate(90)")
+  .style("text-anchor","start");
+
+  // draw line for line graph by updating .x and .y methods (?) for each
+  var line = d3.line()
+  .x(function(d) { return x2(d[xVal2]); })
+  .y(function(d) { return y2(d[yVal2]); });
+
+  svg2.append("path")
+  .datum(dataset2)
+  .attr("fill", "none")
+  .attr("stroke", "red")
+  // .attr("stroke-width", 3)
+  .attr("d", line);
+});
 
 // Put your part five code here ***********************
 
 
   // First, we will create some constants to define non-data-related parts of the visualization
-  // var w3 = 700/4; // Width of our visualization
-  // var h3 = 500; // Height of our visualization
-  // var xOffset3 = 40; // Space for x-axis labels
-  // var yOffset3 = 100; // Space for y-axis labels
-  // var margin3 = 10; // Margin around visualization
+  var w3 = 240; // Width of our visualization
+  var h3 = 500/2; // Height of our visualization
   var vals3 = ['x', 'y']; // List of data attributes
   var xVal3 = vals3[0]; // Value to plot on x-axis
   var yVal3 = vals3[1]; // Value to plot on y-axis
 
   // set the dimensions and margins of the graph
   var margin3 = {top: 40, right: 20, bottom: 30, left: 25};
-  var width3 = 240 - margin3.left - margin3.right;
-  var height3 = 500 - margin3.top - margin3.bottom;
+  var width3 = w3 - margin3.left - margin3.right;
+  var height3 = h3 - margin3.top - margin3.bottom;
 
   // set the ranges
   var x3 = d3.scaleLinear().range([0, width3]);
@@ -312,9 +300,6 @@
   // First, we will create some constants to define non-data-related parts of the visualization
   // var w4 = 700/4; // Width of our visualization
   // var h4 = 500; // Height of our visualization
-  // var xOffset4 = 40; // Space for x-axis labels
-  // var yOffset4 = 100; // Space for y-axis labels
-  // var margin4 = 10; // Margin around visualization
   var vals4 = ['x', 'y']; // List of data attributes
   var xVal4 = vals4[0]; // Value to plot on x-axis
   var yVal4 = vals4[1]; // Value to plot on y-axis
@@ -322,7 +307,7 @@
   // set the dimensions and margins of the graph
   var margin4 = {top: 40, right: 20, bottom: 30, left: 25};
   var width4 = 960/4 - margin4.left - margin4.right;
-  var height4 = 500 - margin4.top - margin4.bottom;
+  var height4 = 500/2 - margin4.top - margin4.bottom;
 
   // set the ranges
   var x4 = d3.scaleLinear().range([0, width4]);
@@ -407,7 +392,7 @@
   // set the dimensions and margins of the graph
   var margin5 = {top: 40, right: 20, bottom: 30, left: 25};
   var width5 = 960/4 - margin5.left - margin5.right;
-  var height5 = 500 - margin5.top - margin5.bottom;
+  var height5 = 500/2 - margin5.top - margin5.bottom;
 
   // set the ranges
   var x5 = d3.scaleLinear().range([0, width5]);
@@ -492,7 +477,7 @@
   // set the dimensions and margins of the graph
   var margin6 = {top: 40, right: 20, bottom: 30, left: 25};
   var width6 = 960/4 - margin6.left - margin6.right;
-  var height6 = 500 - margin6.top - margin6.bottom;
+  var height6 = 500/2 - margin6.top - margin6.bottom;
 
   // set the ranges
   var x6 = d3.scaleLinear().range([0, width6]);
@@ -555,17 +540,14 @@
     .attr("transform","rotate(90)")
     .style("text-anchor","start");
 
-    //Add title
-    var title6 = svg6.append("text")
-      .attr("class","title")
-      .text('Anscombe IV')
-      .attr("x", width6/2)
-      .attr("y", -margin6.top/2);
+  //Add title
+  var title6 = svg6.append("text")
+    .attr("class","title")
+    .text('Anscombe IV')
+    .attr("x", width6/2)
+    .attr("y", -margin6.top/2);
 });
-
-
 </script>
 </body>
-
 
 </html>
